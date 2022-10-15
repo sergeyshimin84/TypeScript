@@ -1,30 +1,22 @@
 import { Book } from './book'
-import { Genre } from './constannts'
+import { Collection } from './collection'
+import { Product } from './product'
 
-export const books = [
-  new Book({
-    name: 'Harry Potter and the Philosopher\'s Stone',
-    genre: Genre.Fantasy,
-    price: 980,
-    author: { lastName: 'Joanne', firstName: 'Rowling' },
-    rating: 4.6
-  }),
-//   new Book({
-//     name: 'Lord of the Ring',
-//     genre: 'fantasy',
-//     price: 1001,
-//     author: 'John Ronald Reuel Tolkien'
-//   }),
-//   new Book({
-//     name: 'How to be productive',
-//     genre: 'lifestyle',
-//     price: 500,
-//     author: ''
-//   }),
-//   new Book({
-//     name: 'Game of Thrones',
-//     genre: 'fantasy',
-//     price: 999,
-//     author: ''
-//   }),
-];
+export class ProductCollection<T extends Product> extends Collection<T> {
+    get price(): number {
+        let totalPrice = 0
+        const keys = Object.getOwnPropertyNames(this.items)
+    
+        for (const key of keys) {
+            const item = this.items[key]
+            totalPrice += item.price
+        }
+        return totalPrice
+    }
+}
+    // коллекция книг для удобной работы
+    // BookCollection в коде выглядит читабельнее чем Collection<Book>
+export class BookCollection extends ProductCollection<Book> {
+}
+    
+    
