@@ -1,5 +1,15 @@
 import { renderBlock } from './lib'
 
+export interface User {
+    user: [username: string, avatarUrl: string][]
+    favoritesAmount: number
+}
+
+export const user: User = {
+    user: [],
+    favoritesAmount: 3
+};
+
 export function renderUserBlock (name: string, linkAvatar: string, favoriteItemsAmount: number) {
   const favoritesCaption = favoriteItemsAmount > 0 ? favoriteItemsAmount : 'ничего нет';
   const hasFavoriteItems = favoriteItemsAmount ? true : false;
