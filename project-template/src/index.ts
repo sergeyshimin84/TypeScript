@@ -1,5 +1,12 @@
 import {upperCase} from './string-helper'
 import {search, lookup} from 'google-books-search'
+export {Author} from './author'
+export {BookCollection} from './book-collection.js'
+export {Book} from './book.js'
+export {Collection} from './collection'
+export {Notepad} from './notepad'
+export {Product} from './product'
+export {Ratingable} from './ratingable'
 
 console.log(upperCase('Harry Potter'))
 console.log(upperCase(''))

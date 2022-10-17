@@ -2,6 +2,8 @@
     "name": "my-project",
     "version": "1.0.0",
     "type": "module",
+    "main": "./public/scripts/index.js",
+    "types": "./public/scripts/types/index.d.ts",
     "scripts": {
         "build": "rm -rf public/scripts && tsc",
         "build:dev": "rm -rf public/scripts && tsc -p tsconfig-dev.json",
