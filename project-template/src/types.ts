@@ -1,14 +1,11 @@
-import { Ratingable } from './ratingable'
+import { Author } from './author.js'
 
-export type BookAuthor = Pick<Author, 'firstName' | 'lastName'>;
+export type Review = [string, number, string]
 
-export type Reviews = [string, number, string][];
-
-export interface Author extends Ratingable {
-    firstName: string
-    lastName: string
-    birthDate: Date
-    booksWritten: number
+export enum Genre {
+  Fantasy = 1,
+  Adventure,
+  Horror
 }
 
-export type BuyCallback = (error?: Error | null, transactionId?: string) => void;
+export type BookAuthor = Pick<Author, 'firstName' | 'lastName'>
