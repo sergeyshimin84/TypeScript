@@ -1,3 +1,4 @@
+// Помошник по обработке данных.
 export abstract class DateHelper {
   public static calculateDifferenceInDays(startDate: Date, endDate: Date) {
     const diffTime = endDate.getTime() - startDate.getTime();
