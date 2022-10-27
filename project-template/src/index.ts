@@ -1,45 +1,38 @@
-import {upperCase} from './string-helper'
-import {search, lookup} from 'google-books-search'
-export {Author} from './author'
-export {BookCollection} from './book-collection.js'
-export {Book} from './book.js'
-export {Collection} from './collection'
-export {Notepad} from './notepad'
-export {Product} from './product'
-export {Ratingable} from './ratingable'
+import { Author } from './store/domain/author.js'
+import { Book } from './store/domain/book.js'
+import { Genre } from './store/domain/genre.js'
+import { SearchFilter } from './store/domain/search-filter.js'
+import { BukvoedProvider } from './store/providers/bukvoed/bukvoed-provider.js'
+import { OzonProvider } from './store/providers/ozon/ozon-provider.js'
 
-console.log(upperCase('Harry Potter'))
-console.log(upperCase(''))
+const ozon = new OzonProvider()
+const bukvoed = new BukvoedProvider()
 
-console.log(Math.max(1, 2))
-console.log(search, lookup)
+// создаём общий фильтр для всех источников
+const filter: SearchFilter = {
+  name: 'it',
+  genre: Genre.Horror,
+  author: new Author('Stephen', 'King')
+}
 
-search('harry potter and the sorcerer\'s stone', function(error, results) {
-    if (error) {
-        console.log(error)
-    } else {
-        console.log('Search results', results)
-    }
-})
+// описываем логику сортировки по цене
+function sortByPrice(one: Book, two: Book) {
+  if (one.price > two.price) {
+    return 1
+  } else if (one.price < two.price) {
+    return -1
+  } else {
+    return 0
+  }
+}
 
-search(
-    'harry potter and the sorcerer\'s stone',
-    {
-        type: 'magazines'
-    },
-    function(error, results) {
-        if (error) {
-            console.log(error)
-        } else {
-            console.log('Search results for magazines', results)
-        }
-    }
-)
-    
-lookup('xieSuAAACAAJ', function(error, result) {
-    if (error) {
-        console.log(error)
-    } else {
-        console.log('Lookup by ID result', result)
-    }
+// запрашиваем разные источники по единому протоколу
+Promise.all([
+  ozon.find(filter),
+  bukvoed.find(filter)
+]).then((results) => {
+  // мерджим все результаты в один
+  const allResults: Book[] = [].concat(results[0], results[1])
+  // работаем с ними как с единым целым
+  allResults.sort(sortByPrice)
 })

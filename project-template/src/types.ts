@@ -1,8 +1,11 @@
-export type Reviews = [string, number, string][];
+import { Author } from './author.js'
 
-export interface Author {
-    firstName: string,
-    lastName: string,
-};
+export type Review = [string, number, string]
 
-export type BuyCallback = (error?: Error | null, transactionId?: string) => void;
+export enum Genre {
+  Fantasy = 1,
+  Adventure,
+  Horror
+}
+
+export type BookAuthor = Pick<Author, 'firstName' | 'lastName'>
