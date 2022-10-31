@@ -75,7 +75,7 @@ export class Book extends Product implements Ratingable {
 
       this._rating = reviewSum / this.reviews.length
     } else {
-      this._rating = null
+      this._rating == null
     }
   }
 }
