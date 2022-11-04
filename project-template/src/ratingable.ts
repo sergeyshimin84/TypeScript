@@ -1,3 +1,3 @@
 export interface Ratingable {
-  rating: number
+  rating: number | null
 }

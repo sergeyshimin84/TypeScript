@@ -9,8 +9,8 @@ export class Collection<V, K extends number | string | symbol = string> {
     this.items[key] = value
   }
 
-  public get(key: K): V {
-    return this.items[key]
+  public get(key: K): V | null {
+    return this.items[key] ?? null
   }
 
   public has(key: K): boolean {

@@ -32,7 +32,54 @@ Promise.all([
   bukvoed.find(filter)
 ]).then((results) => {
   // мерджим все результаты в один
-  const allResults: Book[] = [].concat(results[0], results[1])
+  const allResults: Book[] = []
+  allResults.concat(results[0], results[1])
   // работаем с ними как с единым целым
   allResults.sort(sortByPrice)
 })
+
+interface RemoveBookFromFavorites {
+    // id может быть строкой или числом
+    (id: string | number): Promise<string | number>
+    }
+    // но здесь указывается только string
+    // при этом ошибок не возникает
+    const removeBook: RemoveBookFromFavorites = (id: string | number) => {
+    // здесь должна быть реализация
+    return Promise.resolve(id)
+}
+
+removeBook.call(null, 5)
+
+// в функции можно свободно использовать this
+// однако в данной функции контекст не установлен
+// и this будет undefined
+function printBookSummary(this: Book, printItalic = false) {
+    let openingTag = ''
+    let closingTag = ''
+    
+    if (printItalic) {
+        openingTag = '<i>'
+        closingTag = '</i>'
+    }
+    console.log(
+        openingTag,
+        'Book "' + this.name + '"',
+        'in genre "' + this.genre + '"',
+        'by ' + this.author.firstName + '' + this.author.lastName + ',',
+        this.pages + ' pages',
+        '- ' + this.price + ' rub.',
+        closingTag
+    )
+}
+// печатаем обычным шрифтом
+printBookSummary.call(harryPotter)
+// печатаем курсивом
+printBookSummary.call(harryPotter, true)
+
+console.log(
+    book.name,
+    book['author'] == null ? 'UNKNOWN' : book['author'].toUpperCase(),
+    book['genre'] == null ? 'UNKNOWN' : book['genre'].toUpperCase()
+)
+

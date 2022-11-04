@@ -10,7 +10,9 @@ export class ProductCollection<T extends Product> extends Collection<T> {
 
     for (const key of keys) {
       const item = this.items[key]
-      totalPrice += item.price
+      if (item != null) {
+        totalPrice += item.price
+        }
     }
     
     return totalPrice

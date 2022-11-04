@@ -52,8 +52,12 @@ export class OzonProvider implements Provider {
    * в get-параметры текущего источника
    */
   private convertFilterToQueryString(filter: SearchFilter): string {
-    return `search=${filter.name}` +
-      `&author=${filter.author.firstName} ${filter.author.lastName}`
+    let queryString = `search=${filter.name}`
+        if (filter.author != null) {
+        queryString += `&author=${filter.author.firstName}
+        ${filter.author.lastName}`
+        }
+    return queryString
   }
 
   /**
@@ -70,6 +74,13 @@ export class OzonProvider implements Provider {
    * в экземпляр Book нашего приложения
    */
   private convertBookResponse(item: OzonBook): Book {
+    let authorName = 'Unknown'
+    let authorSurname = 'Author'
+    if (item.author[0] != null) {
+    authorName = item.author[0].name
+    authorSurname = item.author[0].surname
+    }
+
     return new Book(
       OzonProvider.provider,
       String(item.id),
@@ -79,8 +90,8 @@ export class OzonProvider implements Provider {
       item.pageCount,
       item.price,
       new Author(
-        item.author[0].name,
-        item.author[0].surname,
+        authorName,
+        authorSurname
       )
     )
   }

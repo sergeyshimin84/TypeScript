@@ -4,19 +4,22 @@ import { Ratingable } from './ratingable.js'
 import { Genre } from './types.js'
 
 export function serialize(value: unknown) {
-  if (value == null) {
-    return value + ''
-  }
-
   // unknown не даст использовать
   // name, genre и price без проверки
   if (value instanceof Book) {
     return `${value.name}, ${value.genre}, ${value.price}`
   }
 
-  // остальные типы будем просто
-  // приводить к строке
-  return value.toString()
+  if (
+    (typeof value === 'object' || typeof value === 'symbol') &&
+    value != null
+    ) {
+    // остальные типы будем просто
+    // приводить к строке
+    return value.toString()
+    }
+    
+    return value + ''
 }
 
 export function getGenreName(genre: Genre) {
@@ -71,7 +74,7 @@ export function addToShelf(book: Book, shelfName = 'favorite'): void {
   // здесь логика добавления книги на полку
 }
 
-export function addToShelfBunch(shelfName, ...books: Book[]): void {
+export function addToShelfBunch(shelfName: string, ...books: Book[]): void {
   books.forEach((book) => {
     addToShelf(book, shelfName)
   })
@@ -87,7 +90,7 @@ export function markAsRead(...books: Book[]): void {
 }
 
 export interface BuyCallback {
-  (error?: Error, transactionId?: string): void
+  (error?: Error | null, transactionId?: string): void
 }
 
 export function buyRequest(book: Book) {
@@ -104,4 +107,37 @@ export function buy(book: Book, callback: BuyCallback): void {
   .catch((error) => {
     callback(error)
   })
+}
+
+export function calculateRating(reviews: Review[]) {
+    if (reviews.length > 0) {
+        const reviewSum = reviews.reduce(
+            (accumulator, currentValue) => {
+            return accumulator + currentValue[1]
+            },
+            0
+        )
+    return reviewSum / reviews.length
+    } else {
+        // можно вернуть и null как мы делали это раньше
+        return 0
+    }
+}
+
+export function getGenreIcon(genre: Genre): string {
+    let icon: string
+    switch(genre) {
+    case Genre.Adventure:
+        icon = '🧭'
+        break
+    case Genre.Fantasy:
+        icon = '🧙‍♂️'
+        break
+    case Genre.Horror:
+        icon = '😱'
+        break
+    default:
+        icon = '❔'
+    }
+    return icon
 }
