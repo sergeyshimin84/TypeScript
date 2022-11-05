@@ -7,6 +7,7 @@ import { OzonProvider } from './store/providers/ozon/ozon-provider.js'
 
 const ozon = new OzonProvider()
 const bukvoed = new BukvoedProvider()
+let book = Book
 
 // создаём общий фильтр для всех источников
 const filter: SearchFilter = {
